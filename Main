@@ -9,8 +9,8 @@
             html,body{ width:100%; height:100%;overflow-x: hidden;
                        margin:0; padding:0; background-color: lightgrey;}
             div{ background-color:inherit;}
-            .input1,.input2{position: absolute; width:40%; min-height: 80%; top:20px;
-                            font-size:30px;color:transparent;border:5px grey inset;padding:10px;}
+            .input1,.input2{position: absolute; width:40%; min-height: 80%; top:40px;font-family: monospace;
+                            letter-spacing:1px;font-size:30px;color:transparent;border:5px grey inset;padding:10px;}
             .input1{ left:5px;}.input2{right:5px; }
             #input1,#input2{ background-color:transparent;z-index: 10;color:black;}
             #control{ position: fixed; text-align: center;
@@ -24,17 +24,17 @@
     </head>
     <body>
         <h1>Text Comparator</h1>
-        <p id='input1' class='input1' contenteditable="true"></p>
-        <p id='result1' class='input1' contenteditable="true"></p>
+        <div id='input1' class='input1' contenteditable="true"></div>
+        <div id='result1' class='input1' contenteditable="true"></div>
         <p id='control'>
             <button>Re-Format</button><br><br>
             Font-Size:<br><input id='font-size' type='number' value='30'><br><br>
-            Line-Space:<br><input id='letter-spacing' type='number' value='0'><br><br>
+            Line-Space:<br><input id='letter-spacing' type='number' value='1'><br><br>
             Line-Height:<br><input id='line-height' type='number' value='1.1'><br><br>
             Total Error: <b>0</b><i>Copyright&copy; Wei Zheng</i>
         </p>
-        <p id='input2' class='input2' contenteditable="true"></p>
-        <p id='result2' class='input2' contenteditable="true"></p>
+        <div id='input2' class='input2' contenteditable="true"></div>
+        <div id='result2' class='input2' contenteditable="true"></div>
         <script>
             $(function () {
                 $('input').change(function () {
@@ -83,7 +83,7 @@
                     var color = "rgba(" + (d.colorIndex % 255) + "," + (200) + ",255,0.8)";
                     d.colorIndex += 36;
                     if (!d.isHighlight) {
-                        addTag(d,"<span style='background-color:" + color + ";'>");
+                        addTag(d, "<span style='background-color:" + color + ";'>");
                         d.isHighlight = true;
                     }
                     addWord(d, i);
