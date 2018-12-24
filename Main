@@ -80,7 +80,7 @@
                     $('#result2').html(r2);
                 }
                 function highlight(d, i) {
-                    var color = "rgba(" + (colorIndex % 255) + "," + (200) + ",255,0.8)";
+                    var color = "rgba(" + (d.colorIndex % 255) + "," + (200) + ",255,0.8)";
                     d.colorIndex += 36;
                     if (!d.isHighlight) {
                         addTag("<span style='background-color:" + color + ";'>");
