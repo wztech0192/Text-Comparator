@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Text Comparator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            html,body{ width:100%; height:100%;overflow-x: hidden;
+                       margin:0; padding:0; background-color: lightgrey;}
+            div{ background-color:inherit;}
+            .input1,.input2{position: absolute; width:40%; min-height: 80%; top:20px;
+                            font-size:30px;color:transparent;border:5px grey inset;padding:10px;}
+            .input1{ left:5px;}.input2{right:5px; }
+            #input1,#input2{ background-color:transparent;z-index: 10;color:black;}
+            #control{ position: fixed; text-align: center;
+                      left:45%;width:10%; height:40%;top:10%;}
+            input{ width:100%;}
+            span{margin:0;padding:0;}
+            .focus{box-shadow:  0px 0px 5px black,inset 0px 0px 5px black;}
+            i{position: fixed;bottom:0;left:44%;font-size:1vw;}
+            h1{margin:0;text-align: center;}
+        </style>
+    </head>
+    <body>
+        <h1>Text Comparator</h1>
+        <p id='input1' class='input1' contenteditable="true"></p>
+        <p id='result1' class='input1' contenteditable="true"></p>
+        <p id='control'>
+            <button>Re-Format</button><br><br>
+            Font-Size:<br><input id='font-size' type='number' value='30'><br><br>
+            Line-Space:<br><input id='letter-spacing' type='number' value='0'><br><br>
+            Line-Height:<br><input id='line-height' type='number' value='1.1'><br><br>
+            Total Error: <b>0</b><i>Copyright&copy; Wei Zheng</i>
+        </p>
+        <p id='input2' class='input2' contenteditable="true"></p>
+        <p id='result2' class='input2' contenteditable="true"></p>
+        <script>
+            $(function () {
+                $('input').change(function () {
+                    $('.input1,.input2').css($(this).attr('id'), parseFloat($(this).val()));
+                });
+                $('#control button').click(function () {
+                    $('#input1').html($('#input1').text());
+                    $('#input2').html($('#input2').text());
+                    compareText();
+                });
+                $('#input1,#input2').on('keyup', compareText);
+                function compareText() {
+                    var d = {
+                        result1: "", result2: "",
+                        input1: $('#input1').text(), input2: $('#input2').text(),
+                        isHighlight: false, colorIndex: 0, totalError: 0,
+                        caretPos: window.getSelection().getRangeAt(0).startOffset
+                    }, i = 0;
+                    setResult(d.input1, d.input2);
+                    while (i < d.input1.length && i < d.input2.length) {
+                        if (d.input1.charAt(i) === d.input2.charAt(i)) {
+                            stopHighlight(d);
+                            addWord(d, i);
+                        } else {
+                            highlight(d, i);
+                            d.totalError++;
+                        }
+                        i++;
+                    }
+                    stopHighlight(d);
+                    if (i < d.input1.length) {
+                        d.result1 += highlightAll(d.input1, i);
+                        d.totalError++;
+                    } else if (i < d.input2.length) {
+                        d.totalError++;
+                        d.result2 += highlightAll(d.input2, i);
+                    }
+                    setResult(d.result1, d.result2);
+                    $('#control b').text(d.totalError);
+                }
+                function setResult(r1, r2) {
+                    $('#result1').html(r1);
+                    $('#result2').html(r2);
+                }
+                function highlight(d, i) {
+                    var color = "rgba(" + (colorIndex % 255) + "," + (200) + ",255,0.8)";
+                    d.colorIndex += 36;
+                    if (!d.isHighlight) {
+                        addTag("<span style='background-color:" + color + ";'>");
+                        d.isHighlight = true;
+                    }
+                    addWord(d, i);
+                }
+                function highlightAll(input, i) {
+                    return "<span style='background-color:red;'>" + input.substring(i, input.length) + "</span>";
+                }
+                function addWord(d, i) {
+                    if (i === d.caretPos - 1) {
+                        d.result1 += "<span class='focus'>" + d.input1.charAt(i) + "</span>";
+                        d.result2 += "<span class='focus'>" + d.input2.charAt(i) + "</span>";
+                    } else {
+                        d.result1 += d.input1.charAt(i);
+                        d.result2 += d.input2.charAt(i);
+                    }
+                }
+                function stopHighlight(d) {
+                    if (d.isHighlight) {
+                        addTag(d, "</span>");
+                        d.isHighlight = false;
+                    }
+                }
+                function addTag(d, tag) {
+                    d.result1 += tag;
+                    d.result2 += tag;
+                }
+            });
+        </script>
+    </body>
+</html>
