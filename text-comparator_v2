@@ -31,7 +31,8 @@
             Font-Size:<br><input id='font-size' type='number' value='30'><br><br>
             Line-Space:<br><input id='letter-spacing' type='number' value='1'><br><br>
             Line-Height:<br><input id='line-height' type='number' value='1.1'><br><br>
-            Total Error: <b>0</b><i>Copyright&copy; Wei Zheng</i>
+            Total Error: <b id="error">0</b><i>Copyright&copy; Wei Zheng</i>
+            <br><br>Index <b id="ps">-1</b> to <b id="pe">-1</b>
         </p>
         <div id='input2' class='input2' contenteditable="true"></div>
         <div id='result2' class='input2' contenteditable="true"></div>
@@ -51,6 +52,12 @@
                        if(insert===1) insert=0;
                        else insert=1;
                    } 
+                });
+                $("#input1,#input2").click(compareText);
+                $('#input1,#input2').mousedown(function(){
+                    $('#input1,#input2').mousemove(compareText);
+                }).mouseup(function(){
+                    $("#input1,#input2").off('mousemove');
                 });
                 $('#input1,#input2').on('keyup', compareText);
                 function compareText() {
@@ -74,14 +81,16 @@
                     }
                     stopHighlight(d);
                     if (i < d.input1.length) {
+                        d.totalError+=d.input1.length-i;
                         d.result1 += highlightAll(d.input1, i);
-                        d.totalError++;
                     } else if (i < d.input2.length) {
-                        d.totalError++;
+                         d.totalError+=d.input1.length-i;
                         d.result2 += highlightAll(d.input2, i);
                     }
                     setResult(d.result1, d.result2);
-                    $('#control b').text(d.totalError);
+                    $('#control #error').text(d.totalError);
+                    $("#ps").text(d.caretBeginPos-insert);
+                    $('#pe').text(d.caretEndPos-insert);
                 }
                 function setResult(r1, r2) {
                     $('#result1').html(r1);
