@@ -24,8 +24,8 @@
     </head>
     <body>
         <h1>Text Comparator</h1>
-        <div id='input1' class='input1' contenteditable="true"></div>
-        <div id='result1' class='input1' contenteditable="true"></div>
+        <div id='input1' class='input1' contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+        <div id='result1' class='input1' contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
         <p id='control'>
             <button>Re-Format</button><br><br>
             Font-Size:<br><input id='font-size' type='number' value='30'><br><br>
@@ -34,8 +34,8 @@
             Total Error: <b id="error">0</b><i>Copyright&copy; Wei Zheng</i>
             <br><br>Index <b id="ps">-1</b> to <b id="pe">-1</b>
         </p>
-        <div id='input2' class='input2' contenteditable="true"></div>
-        <div id='result2' class='input2' contenteditable="true"></div>
+        <div id='input2' class='input2' contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+        <div id='result2' class='input2' contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
         <script>
             $(function () {
                 var insert=1;
